@@ -8,7 +8,7 @@ export const createCategory = createAsyncThunk('category/createCategory', async 
         resetForm()
         navigate('/list-category')
         return response.data
-        
+
     } catch (e) {
         console.log(e);
         return rejectWithValue({
@@ -21,6 +21,15 @@ export const createCategory = createAsyncThunk('category/createCategory', async 
 export const fetchCategories = createAsyncThunk('category/fetchCategories', async () => {
     try {
         const response = await axios.get('/api/categories', { headers: { Authorization: localStorage.getItem('token') } })
+        return response.data
+    } catch (e) {
+        console.log(e);
+    }
+})
+
+export const deleteCategory = createAsyncThunk('category/deleteCategory', async (id) => {
+    try {
+        const response = await axios.delete(`/api/delete/${id}`, { headers: { Authorization: localStorage.getItem('token') } })
         return response.data
     } catch (e) {
         console.log(e);
@@ -51,6 +60,12 @@ const categorySlice = createSlice({
             state.categories = action.payload
             state.serverErrors = action.payload
         })
+
+        builder.addCase(deleteCategory.fulfilled, (state, action) => {
+            const index = state.categories.findIndex(ele => ele._id === action.payload._id)
+            state.categories.splice(index, 1)
+        })
+
 
 
 

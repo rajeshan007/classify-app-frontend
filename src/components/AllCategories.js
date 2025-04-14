@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchCategories } from '../slices/categorySlice'
+import { fetchCategories, deleteCategory } from '../slices/categorySlice'
 
 const AllCategories = () => {
     const dispatch = useDispatch()
@@ -13,8 +13,12 @@ const AllCategories = () => {
 
 
 
-    const handleClick = (id) =>{
-        
+    const handleClick = (id) => {
+        const confirm = window.confirm('are you sure')
+        if (confirm) {
+            dispatch(deleteCategory(id))
+        }
+
     }
 
     return (
