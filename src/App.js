@@ -68,7 +68,9 @@ function App() {
             {data.role === 'admin' && <li> <Link to='/list-category' > All categories</Link> </li>}
             {data.role === 'admin' && <li> <Link to='/all-users' >All buyers</Link> </li>}
             {data.role === 'seller' && <li> <Link to='/create-product' >create products</Link> </li>}
-            {data.role === 'seller' && <li> <Link to='/all-products' > all products </Link> </li>}
+            {(data.role === 'seller' || data.role === 'admin') && (
+              <li><Link to='/all-products'>All Products</Link></li>
+            )}
 
 
             <li>  <button onClick={handleClick} > logout </button> </li>
@@ -99,7 +101,7 @@ function App() {
 
 
         <Route path='/create-product' element={<PrivateRoute>  <ProtectedRoute roles={['seller']} > <CreateProduct /> </ProtectedRoute>  </PrivateRoute>} />
-        <Route path='/all-products' element={<AllProducts />} />
+        <Route path='/all-products' element={<PrivateRoute> <ProtectedRoute roles={['seller', 'admin']} > <AllProducts /> </ProtectedRoute> </PrivateRoute>} />
 
       </Routes>
 
