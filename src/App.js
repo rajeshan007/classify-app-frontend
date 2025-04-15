@@ -10,12 +10,14 @@ import AllProducts from './components/AllProducts';
 import PrivateRoute from './components/PrivateRoute';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, fetchUserAccount } from './slices/userSlice';
+import { logout, fetchUserAccount, } from './slices/userSlice';
+import { fetchCategories } from './slices/categorySlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import AllUsers from './components/AllUsers';
 import CreateCategory from './components/CreateCategory';
 import AllCategories from './components/AllCategories';
+import CreateProduct from './components/CreateProduct';
 
 
 
@@ -31,6 +33,13 @@ function App() {
   useEffect(() => {  // to avoid page reload
     if (localStorage.getItem('token')) {
       dispatch(fetchUserAccount())
+    }
+  }, [dispatch])
+
+
+  useEffect(() => {  // to avoid page reload
+    if (localStorage.getItem('token')) {
+      dispatch(fetchCategories())
     }
   }, [dispatch])
 
@@ -58,6 +67,8 @@ function App() {
             {data.role === 'admin' && <li> <Link to='/create-category' > create category</Link> </li>}
             {data.role === 'admin' && <li> <Link to='/list-category' > All categories</Link> </li>}
             {data.role === 'admin' && <li> <Link to='/all-users' >All buyers</Link> </li>}
+            {data.role === 'seller' && <li> <Link to='/create-product' >create products</Link> </li>}
+            {data.role === 'seller' && <li> <Link to='/all-products' > all products </Link> </li>}
 
 
             <li>  <button onClick={handleClick} > logout </button> </li>
@@ -78,11 +89,17 @@ function App() {
         <Route path='/dashboard' element={<PrivateRoute>  <Dashboard /> </PrivateRoute>} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/create-category' element={<CreateCategory />} />
         <Route path='/account' element={<PrivateRoute> <Account /> </PrivateRoute>} />
-        <Route path='/unauthorized' element={<h2> sorry you dont have access to this page </h2>} />
         <Route path='/all-users' element={<PrivateRoute> <ProtectedRoute roles={['admin']} > <AllUsers /> </ProtectedRoute> </PrivateRoute>} />
-        <Route path='/list-category' element={<PrivateRoute> <ProtectedRoute roles={['admin']} > <AllCategories /></ProtectedRoute> </PrivateRoute>} />
+
+        <Route path='/create-category' element={<PrivateRoute> <ProtectedRoute roles={['admin']} > <CreateCategory /> </ProtectedRoute> </PrivateRoute>} />
+        <Route path='/list-category' element={<PrivateRoute> <ProtectedRoute roles={['admin', 'seller']} > <AllCategories /></ProtectedRoute> </PrivateRoute>} />
+        <Route path='/unauthorized' element={<h2> sorry you dont have access to this page </h2>} />
+
+
+
+        <Route path='/create-product' element={<PrivateRoute>  <ProtectedRoute roles={['seller']} > <CreateProduct /> </ProtectedRoute>  </PrivateRoute>} />
+        <Route path='/all-products' element={<AllProducts />} />
 
       </Routes>
 

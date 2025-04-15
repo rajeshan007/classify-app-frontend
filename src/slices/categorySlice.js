@@ -69,7 +69,7 @@ const categorySlice = createSlice({
 
         builder.addCase(fetchCategories.fulfilled, (state, action) => {
             state.categories = action.payload
-            state.serverErrors = action.payload
+            
         })
 
         builder.addCase(deleteCategory.fulfilled, (state, action) => {

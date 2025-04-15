@@ -32,7 +32,7 @@ const AllUsers = () => {
                         <th>Email</th>
                         <th>Role</th>
                         <th>Actions</th>
-                        <th>status</th>
+                      
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@ const AllUsers = () => {
                                     Delete User
                                 </button>
                             </td>
-                            <td> {ele.status} </td>
+                           
                         </tr>
                     ))}
                 </tbody>
