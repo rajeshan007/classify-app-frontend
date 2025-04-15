@@ -21,7 +21,7 @@ const AllUsers = () => {
 
     return (
         <div>
-            <h1>total buyers -{users.length}   </h1>
+            <h1>total users -{users.length}   </h1>
 
 
 

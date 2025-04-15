@@ -76,7 +76,7 @@ const CreateCategory = () => {
                 <input type='text' value={name} onChange={(e) => setName(e.target.value)} id='category' /> {clientErrors.name && <span style={{ color: 'red' }} > {clientErrors.name}</span>} <br />
                 <input type='submit' value={category ? 'update category' : "create"} />
             </form>
-            {category && <button onClick={() => { dispatch(clearEditId('')); setName(''); }} > cancel </button>}
+            {category && <button onClick={() => { dispatch(clearEditId('')); setName(''); navigate('/list-category'); }} > cancel </button>}
         </div>
     )
 }
