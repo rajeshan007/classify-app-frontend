@@ -1,12 +1,16 @@
-import React, { useState, } from 'react'
-import { createCategory } from '../slices/categorySlice'
+import React, { useEffect, useState, } from 'react'
+import { createCategory, clearEditId } from '../slices/categorySlice'
 import { useDispatch, useSelector, } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const CreateCategory = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { serverErrors } = useSelector(state => state.category)
+    const { serverErrors, editId, categories } = useSelector(state => state.category)
+
+
+    const category = categories.find(ele => ele._id === editId)
+
 
 
     const [name, setName] = useState('')
@@ -39,13 +43,19 @@ const CreateCategory = () => {
 
     }
 
+    useEffect(() => {
+        if (category) {
+            setName(category ? category.name : '')
+        }
+    }, [category])
+
 
 
     return (
         <div>
             <h1> create product category</h1>
 
-            {serverErrors?.errors  && (
+            {serverErrors?.errors && (
                 <>
                     <p>These errors are prohibited from creating the category:</p>
                     <ul>
@@ -56,12 +66,11 @@ const CreateCategory = () => {
                 </>
             )}
             <form onSubmit={handleSubmit} >
-                <label htmlFor='category' > enter category name  : </label>
+                <label htmlFor='category' >  <b> {category ? "enter new category name : " : 'enter category name'}</b>  </label>
                 <input type='text' value={name} onChange={(e) => setName(e.target.value)} id='category' /> {clientErrors.name && <span style={{ color: 'red' }} > {clientErrors.name}</span>} <br />
-                <input type='submit' value='create category' />
-
-
+                <input type='submit' value={category ? 'update category' : "create"} />
             </form>
+            {category && <button onClick={() => { dispatch(clearEditId('')); setName(''); }} > cancel </button>}
         </div>
     )
 }
