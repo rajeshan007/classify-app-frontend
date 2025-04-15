@@ -55,9 +55,8 @@ function App() {
           < >
             <li><Link to='/account' > Account </Link> </li>
             <li><Link to='/dashboard' > Dashboard </Link> </li>
-            <li> <Link to='/create-category' > create category</Link> </li>
-            <li> <Link to='/list-category' > All categories</Link> </li>
-
+            {data.role === 'admin' && <li> <Link to='/create-category' > create category</Link> </li>}
+            {data.role === 'admin' && <li> <Link to='/list-category' > All categories</Link> </li>}
             {data.role === 'admin' && <li> <Link to='/all-users' >All buyers</Link> </li>}
 
 
@@ -83,11 +82,11 @@ function App() {
         <Route path='/account' element={<PrivateRoute> <Account /> </PrivateRoute>} />
         <Route path='/unauthorized' element={<h2> sorry you dont have access to this page </h2>} />
         <Route path='/all-users' element={<PrivateRoute> <ProtectedRoute roles={['admin']} > <AllUsers /> </ProtectedRoute> </PrivateRoute>} />
-        <Route path='/list-category' element={<AllCategories/>} />
+        <Route path='/list-category' element={<PrivateRoute> <ProtectedRoute roles={['admin']} > <AllCategories /></ProtectedRoute> </PrivateRoute>} />
 
       </Routes>
 
-    </div>
+    </div >
   );
 }
 

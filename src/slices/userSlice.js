@@ -15,10 +15,30 @@ export const fetchUserAccount = createAsyncThunk('user/fetchUserAccount', async 
     }
 })
 
+
+export const fetchAllUsers = createAsyncThunk('user/fetchAllUsers', async () => {
+    try {
+        const response = await axios.get('/all-users', { headers: { Authorization: localStorage.getItem('token') } })
+        return response.data
+    } catch (e) {
+        console.log(e);
+    }
+})
+
+export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
+    try {
+        const response = await axios.delete(`/delete-user/${id}`, { headers: { Authorization: localStorage.getItem('token') } })
+        return response.data
+    } catch (e) {
+
+    }
+})
+
 const userSlice = createSlice({
     name: 'user',
     initialState: {
         data: null,
+        users: [],
         isLoggedIn: false,
         serverErrors: null,
 
@@ -32,6 +52,13 @@ const userSlice = createSlice({
         builder.addCase(fetchUserAccount.rejected, (state, action) => {
             state.data = action.payload
             state.isLoggedIn = false
+        })
+        builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
+            state.users = action.payload
+        })
+
+        builder.addCase(deleteUser.fulfilled, (state, action) => {
+            return { ...state, users: state.users.filter(ele => ele._id !== action.payload._id) }
         })
     },
 

@@ -36,10 +36,11 @@ export const deleteCategory = createAsyncThunk('category/deleteCategory', async 
     }
 })
 
-export const updateCategory = createAsyncThunk('category/updateCategory', async ({ id, formData }) => {
+export const updateCategory = createAsyncThunk('category/updateCategory', async ({ category, formData, navigate }) => {
     try {
-        const response = await axios.put(`/api/update/${id}`, formData, { headers: { Authorization: localStorage.getItem('token') } })
-        console.log(response.data);
+        const response = await axios.put(`/api/update/${category._id}`, formData, { headers: { Authorization: localStorage.getItem('token') } })
+        navigate('/list-category')
+        return response.data
     } catch (e) {
         console.log(e);
     }
@@ -76,8 +77,14 @@ const categorySlice = createSlice({
             state.categories.splice(index, 1)
         })
 
+        builder.addCase(updateCategory.fulfilled, (state, action) => {
+            const index = state.categories.findIndex(ele => ele._id === action.payload._id)
+            state.categories[index] = { ...state.categories[index], ...action.payload }
+        })
+
     },
     reducers: {
+
         setEditId: (state, action) => {
             state.editId = action.payload
         },
@@ -88,5 +95,5 @@ const categorySlice = createSlice({
 
 
 })
-export const { setEditId , clearEditId} = categorySlice.actions
+export const { setEditId, clearEditId } = categorySlice.actions
 export default categorySlice.reducer

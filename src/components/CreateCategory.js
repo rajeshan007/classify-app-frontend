@@ -1,5 +1,5 @@
 import React, { useEffect, useState, } from 'react'
-import { createCategory, clearEditId } from '../slices/categorySlice'
+import { createCategory, clearEditId, updateCategory } from '../slices/categorySlice'
 import { useDispatch, useSelector, } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -34,10 +34,16 @@ const CreateCategory = () => {
             setClientErrors(errors)
         } else {
             setClientErrors({})
+
             const formData = {
                 name: name
             }
-            dispatch(createCategory({ formData, resetForm, navigate }))
+            if (category) {
+                dispatch(updateCategory({ category, formData , navigate}))
+            } else {
+                dispatch(createCategory({ formData, resetForm, navigate }))
+            }
+
 
         }
 

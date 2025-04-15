@@ -41,6 +41,7 @@ export default function Login() {
                 navigate('/account')
                 // console.log(accountResponse.data);
             } catch (e) {
+                console.log(e);
                 setServerErrors(e.response.data.errors)
             }
         }
