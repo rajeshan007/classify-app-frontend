@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from '../config/axios'
 import { useSelector } from 'react-redux'
 
-
 export default function AllProducts() {
     const [products, setProducts] = useState([])
     const { categories } = useSelector(state => state.category)
@@ -24,6 +23,12 @@ export default function AllProducts() {
         fetchProducts()
     }, [])
 
+    // Helper function to get category name by ID
+    const getCategoryName = (categoryId) => {
+        const category = categories.find(cat => cat._id === categoryId)
+        return category ? category.name : 'N/A'
+    }
+
     return (
         <div>
             <h1>Total Products - {products.length}</h1>
@@ -31,7 +36,7 @@ export default function AllProducts() {
             {products.length === 0 ? (
                 <p>No products available</p>
             ) : (
-                <table border='1px'>
+                <table border='1px' cellPadding="10" cellSpacing="0">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -47,7 +52,7 @@ export default function AllProducts() {
                                 <td>{product.title}</td>
                                 <td>{product.price}</td>
                                 <td>{product.quantity}</td>
-                                <td>{product.category?.name || 'N/A'}</td>
+                                <td>{getCategoryName(product.category)}</td>
                                 <td>{product.isApproved ? 'Yes' : 'No'}</td>
                             </tr>
                         ))}
