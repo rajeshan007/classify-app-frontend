@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import axios from '../config/axios'
-import { useSelector } from 'react-redux'
+import { useSelector, } from 'react-redux'
 
 export default function AllProducts() {
     const [products, setProducts] = useState([])
     const [serverErrors, setServerErrors] = useState(null)
     const { categories } = useSelector(state => state.category)
+
+    const { data } = useSelector(state => state.user)
 
 
     useEffect(() => {
@@ -31,22 +33,6 @@ export default function AllProducts() {
         return category ? category.name : 'N/A'
     }
 
-    // delete the product 
-    // const handleDelete = async (id) => {
-    //     try {
-    //         const response = await axios.delete(`/api/deleteProduct/${id}`, {
-    //             headers: {
-    //                 Authorization: localStorage.getItem('token')
-    //             }
-    //         })
-
-    //         setProducts(response.data)
-
-    //     } catch (e) {
-    //         setServerErrors(e.response.data.errors)
-    //     }
-    // }
-
 
     const handleDelete = async (id) => {
         try {
@@ -55,14 +41,14 @@ export default function AllProducts() {
                     Authorization: localStorage.getItem('token')
                 }
             })
-    
+
             // Remove the deleted product from the local state
             setProducts(prev => prev.filter(product => product._id !== id))
         } catch (e) {
             setServerErrors(e.response?.data?.errors || 'Something went wrong')
         }
     }
-    
+
 
 
     return (
@@ -84,7 +70,8 @@ export default function AllProducts() {
                             <th>Quantity</th>
                             <th>Category</th>
                             <th>Approved</th>
-                            <th>actions</th>
+                            {data.role === "admin" && <th>actions</th>}
+
                         </tr>
                     </thead>
                     <tbody>
@@ -95,7 +82,8 @@ export default function AllProducts() {
                                 <td>{product.quantity}</td>
                                 <td>{getCategoryName(product.category)}</td>
                                 <td>{product.isApproved ? 'Yes' : 'No'}</td>
-                                <td> <button onClick={() => { handleDelete(product._id) }} > delete</button> </td>
+                                {data.role === 'admin' && <td> <button onClick={() => { handleDelete(product._id) }} > delete</button> </td>}
+
 
                             </tr>
                         ))}
