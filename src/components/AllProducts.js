@@ -35,19 +35,25 @@ export default function AllProducts() {
 
 
     const handleDelete = async (id) => {
-        try {
-            await axios.delete(`/api/deleteProduct/${id}`, {
-                headers: {
-                    Authorization: localStorage.getItem('token')
-                }
-            })
+        const confirm = window.confirm('are you sure?')
+        if (confirm) {
+            try {
+                await axios.delete(`/api/deleteProduct/${id}`, {
+                    headers: {
+                        Authorization: localStorage.getItem('token')
+                    }
+                })
 
-            // Remove the deleted product from the local state
-            setProducts(prev => prev.filter(product => product._id !== id))
-        } catch (e) {
-            setServerErrors(e.response?.data?.errors || 'Something went wrong')
+                // Remove the deleted product from the local state
+                setProducts(prev => prev.filter(product => product._id !== id))
+            } catch (e) {
+                setServerErrors(e.response?.data?.errors || 'Something went wrong')
+            }
         }
+
     }
+
+   
 
 
 
@@ -66,11 +72,12 @@ export default function AllProducts() {
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Price</th>
+                            <th>Price/kg </th>
                             <th>Quantity</th>
                             <th>Category</th>
                             <th>Approved</th>
                             {data.role === "admin" && <th>actions</th>}
+
 
                         </tr>
                     </thead>
@@ -82,7 +89,14 @@ export default function AllProducts() {
                                 <td>{product.quantity}</td>
                                 <td>{getCategoryName(product.category)}</td>
                                 <td>{product.isApproved ? 'Yes' : 'No'}</td>
-                                {data.role === 'admin' && <td> <button onClick={() => { handleDelete(product._id) }} > delete</button> </td>}
+                                {data.role === 'admin' && (
+                                    <td>
+                                        <button onClick={() => handleDelete(product._id)}>Delete product</button>
+                                        
+                                    </td>
+                                )}
+
+
 
 
                             </tr>

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { isEmail } from "validator"
 import axios from '../config/axios'
 import { useNavigate } from 'react-router-dom'
+import './register.css'
+
 
 export default function Register() {
     const [username, setUsername] = useState('')
@@ -87,79 +89,98 @@ export default function Register() {
 
 
     return (
-        <div>
-            <h1>  register with us</h1>
-            {serverErrors &&
-                <>
-                    <h3> these errors are prohibitted from the user being saved</h3>
-                    {serverErrors.map((ele, i) => {
-                        return <li key={i} > {ele.msg} </li>
-                    })}
-
-                </>
-            }
-
-            <form onSubmit={handleSubmit} >
-                <label htmlFor='username' > <b> enter name :</b>  </label>
-                <input
-                    type='text'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    id='username'
-                />  {clientErrors.username && <span>{clientErrors.username}</span>}  <br />
-                <label htmlFor='email' > <b> enter email :</b></label>
-                <input
-                    type='text'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    id='email'
-                /> {clientErrors.email && <span>{clientErrors.email}</span>} <br />
-                <label htmlFor='password' > <b> enter password :</b></label>
-                <input
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    id='password'
-                />  {clientErrors.password && <span>{clientErrors.password}</span>} <br />
-
-                <label> <b> select status  </b> </label>
-                <select value={status} onChange={(e) => setStatus(e.target.value)} >
-                    <option value='' > select status </option>
-                    <option value='active' > active </option>
-                    <option value='deactive' >deactive</option>
-                </select> <br />
-
-                <lable> <b>select role : </b> </lable>
-                <input
-                    type='radio'
-                    value='buyer'
-                    checked={role === 'buyer'}
-                    onChange={(e) => { setRole(e.target.value) }}
-                    name='role'
-                    id='buyer'
-                /> <label htmlFor='buyer' > buyer </label>
-                <input
-                    type='radio'
-                    value='seller'
-                    checked={role === 'seller'}
-                    onChange={(e) => { setRole(e.target.value) }}
-                    name='role'
-                    id='seller'
-                /> <label htmlFor='seller' > seller </label>
-                <input
-                    type='radio'
-                    value='admin'
-                    checked={role === 'admin'}
-                    onChange={(e) => { setRole(e.target.value) }}
-                    name='role'
-                    id='admin'
-                /> <label htmlFor='admin' > admin </label> <br />
-
-
-                <input type='submit' />
-
-            </form>
-            <b>alread registerd?</b> <Link to='/login' > login here </Link>
+        <div className="register-container">
+        <h1>register with us</h1>
+      
+        {serverErrors && (
+          <div className="error-list">
+            <h3>These errors prevented registration:</h3>
+            {serverErrors.map((ele, i) => (
+              <li key={i}>{ele.msg}</li>
+            ))}
+          </div>
+        )}
+      
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="username">Enter name:</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              id="username"
+            />
+            {clientErrors.username && <span>{clientErrors.username}</span>}
+          </div>
+      
+          <div>
+            <label htmlFor="email">Enter email:</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id="email"
+            />
+            {clientErrors.email && <span>{clientErrors.email}</span>}
+          </div>
+      
+          <div>
+            <label htmlFor="password">Enter password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+            />
+            {clientErrors.password && <span>{clientErrors.password}</span>}
+          </div>
+      
+          <div>
+            <label>Select status:</label>
+            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="">Select status</option>
+              <option value="active">Active</option>
+              <option value="deactive">Deactive</option>
+            </select>
+          </div>
+      
+          <div>
+            <label>Select role:</label><br />
+            <input
+              type="radio"
+              value="buyer"
+              checked={role === 'buyer'}
+              onChange={(e) => setRole(e.target.value)}
+              name="role"
+              id="buyer"
+            /> <label htmlFor="buyer">Buyer</label>
+      
+            <input
+              type="radio"
+              value="seller"
+              checked={role === 'seller'}
+              onChange={(e) => setRole(e.target.value)}
+              name="role"
+              id="seller"
+            /> <label htmlFor="seller">Seller</label>
+      
+            <input
+              type="radio"
+              value="admin"
+              checked={role === 'admin'}
+              onChange={(e) => setRole(e.target.value)}
+              name="role"
+              id="admin"
+            /> <label htmlFor="admin">Admin</label>
+          </div>
+      
+          <input type="submit" value="Register" />
+        </form>
+      
+        <div className="link-text">
+          <b>Already registered?</b> <Link to="/login">Login here</Link>
         </div>
+      </div>
+      
     )
 }
