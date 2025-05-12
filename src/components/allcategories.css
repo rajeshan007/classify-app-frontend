@@ -1,0 +1,65 @@
+.category-list-container {
+    max-width: 800px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .category-heading {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 2rem;
+  }
+  
+  .category-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .category-table th,
+  .category-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .category-table th {
+    background-color: #f1f5f9;
+    color: #111827;
+  }
+  
+  .category-table tr:hover {
+    background-color: #f0fdf4;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    transition: background-color 0.2s ease;
+  }
+  
+  .edit-btn {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .edit-btn:hover {
+    background-color: #2563eb;
+  }
+  
+  .delete-btn {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .delete-btn:hover {
+    background-color: #dc2626;
+  }
+  

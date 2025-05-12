@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from '../config/axios'
 import { useSelector, } from 'react-redux'
+import './allproducts.css'
 
 export default function AllProducts() {
     const [products, setProducts] = useState([])
@@ -53,36 +54,80 @@ export default function AllProducts() {
 
     }
 
-   
+
 
 
 
     return (
-        <div>
+        // <div>
 
 
-            <h1>Total Products - {products.length}</h1>
+        //     <h1>Total Products - {products.length}</h1>
 
-            {serverErrors && <p>{serverErrors}</p>}
+        //     {serverErrors && <p>{serverErrors}</p>}
+
+        //     {products.length === 0 ? (
+        //         <p>No products available</p>
+        //     ) : (
+        //         <table border='1px' >
+        //             <thead>
+        //                 <tr>
+        //                     <th>Title</th>
+        //                     <th>Price/kg </th>
+        //                     <th>Quantity</th>
+        //                     <th>Category</th>
+        //                     <th>Approved</th>
+        //                     {data.role === "admin" && <th>actions</th>}
+
+
+        //                 </tr>
+        //             </thead>
+        //             <tbody>
+        //                 {products?.map((product) => (
+        //                     <tr key={product._id}>
+        //                         <td>{product.title}</td>
+        //                         <td>{product.price}</td>
+        //                         <td>{product.quantity}</td>
+        //                         <td>{getCategoryName(product.category)}</td>
+        //                         <td>{product.isApproved ? 'Yes' : 'No'}</td>
+        //                         {data.role === 'admin' && (
+        //                             <td>
+        //                                 <button onClick={() => handleDelete(product._id)}>Delete product</button>
+
+        //                             </td>
+        //                         )}
+
+
+
+
+        //                     </tr>
+        //                 ))}
+        //             </tbody>
+        //         </table>
+        //     )}
+        // </div>
+
+        <div className="product-list-container">
+            <h1 className="product-heading">Total Products - {products.length}</h1>
+
+            {serverErrors && <p className="error-msg">{serverErrors}</p>}
 
             {products.length === 0 ? (
-                <p>No products available</p>
+                <p className="empty-state">No products available</p>
             ) : (
-                <table border='1px' >
+                <table className="product-table">
                     <thead>
                         <tr>
                             <th>Title</th>
-                            <th>Price/kg </th>
+                            <th>Price/kg</th>
                             <th>Quantity</th>
                             <th>Category</th>
                             <th>Approved</th>
-                            {data.role === "admin" && <th>actions</th>}
-
-
+                            {data.role === "admin" && <th>Actions</th>}
                         </tr>
                     </thead>
                     <tbody>
-                        {products?.map((product) => (
+                        {products.map((product) => (
                             <tr key={product._id}>
                                 <td>{product.title}</td>
                                 <td>{product.price}</td>
@@ -91,19 +136,17 @@ export default function AllProducts() {
                                 <td>{product.isApproved ? 'Yes' : 'No'}</td>
                                 {data.role === 'admin' && (
                                     <td>
-                                        <button onClick={() => handleDelete(product._id)}>Delete product</button>
-                                        
+                                        <button className="btn delete-btn" onClick={() => handleDelete(product._id)}>
+                                            Delete Product
+                                        </button>
                                     </td>
                                 )}
-
-
-
-
                             </tr>
                         ))}
                     </tbody>
                 </table>
             )}
         </div>
+
     )
 }
