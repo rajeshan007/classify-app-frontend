@@ -57,7 +57,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1 style={{ color: 'red' }} >classify  App</h1>
+      {/* <h1 style={{ color: 'red' }} >classify  App</h1>
       <ul>
 
         {isLoggedIn ? (
@@ -84,7 +84,49 @@ function App() {
 
 
 
-      </ul>
+      </ul> */}
+
+
+      <header className="navbar">
+        <h1 className="logo">Classify App</h1>
+        <nav className="nav-links">
+          <ul>
+            {isLoggedIn ? (
+              <>
+                <li><Link to='/account'>Account</Link></li>
+                <li><Link to='/dashboard'>Dashboard</Link></li>
+                {data.role === 'admin' && (
+                  <li className="dropdown">
+                    Admin
+                    <ul className="dropdown-menu">
+                      <li><Link to='/create-category'>Create Category</Link></li>
+                      <li><Link to='/list-category'>All Categories</Link></li>
+                      <li><Link to='/all-users'>All Buyers</Link></li>
+                    </ul>
+                  </li>
+                )}
+                {data.role === 'seller' && (
+                  <li className="dropdown">
+                    Seller
+                    <ul className="dropdown-menu">
+                      <li><Link to='/create-product'>Create Product</Link></li>
+                    </ul>
+                  </li>
+                )}
+                {(data.role === 'seller' || data.role === 'admin') && (
+                  <li><Link to='/all-products'>All Products</Link></li>
+                )}
+                <li><button onClick={handleClick}>Logout</button></li>
+              </>
+            ) : (
+              <>
+                <li><Link to='/register'>Register</Link></li>
+                <li><Link to='/login'>Login</Link></li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </header>
 
 
       <Routes>
@@ -106,6 +148,9 @@ function App() {
       </Routes>
 
     </div >
+
+
+
   );
 }
 

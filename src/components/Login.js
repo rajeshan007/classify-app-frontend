@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from '../config/axios'
 import { useDispatch, } from "react-redux"
 import { login } from "../slices/userSlice"
+import './login.css'
 
 export default function Login() {
     const [email, setEmail] = useState('')
@@ -48,37 +49,44 @@ export default function Login() {
     }
 
     return (
-        <div>
-            <h1>  Login with us </h1>
-            {serverErrors &&
-                <>
-                    <h3> these errors are prohibitted from the user being saved</h3>
-                    {serverErrors.map((ele, i) => {
-                        return <li key={i} > {ele.msg} </li>
-                    })}
-
-                </>
-            }
-
-            <form onSubmit={handleSubmit} >
-                <input
-                    type='text'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder='enter email'
-                    name='email'
-                /> {clientErrors.email && <span> {clientErrors.email} </span>} <br />
-                <input
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder='enter password'
-                    name='password'
-                /> {clientErrors.password && <span> {clientErrors.password} </span>} <br />
-                <input type='submit' value='login' />
-            </form>
-            <b>new user?</b> <Link to='/register' > register here </Link>
-
+        <div className="login-container">
+        <h1>Login with us</h1>
+      
+        {serverErrors && (
+          <div className="error-list">
+            <h3>These errors prevented login:</h3>
+            {serverErrors.map((ele, i) => (
+              <li key={i}>{ele.msg}</li>
+            ))}
+          </div>
+        )}
+      
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email"
+            name="email"
+          />
+          {clientErrors.email && <span>{clientErrors.email}</span>}
+      
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+            name="password"
+          />
+          {clientErrors.password && <span>{clientErrors.password}</span>}
+      
+          <input type="submit" value="Login" />
+        </form>
+      
+        <div className="link-text">
+          <b>New user?</b> <Link to="/register">Register here</Link>
         </div>
+      </div>
+      
     )
 }
